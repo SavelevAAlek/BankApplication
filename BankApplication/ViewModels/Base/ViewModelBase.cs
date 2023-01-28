@@ -8,17 +8,16 @@ namespace BankApplication.ViewModels.Base
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        protected virtual bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = "")
+        protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
         {
-            if (EqualityComparer<T>.Default.Equals(storage, value))
+            if (EqualityComparer<T>.Default.Equals(field, value))
                 return false;
-
-            storage = value;
+            field = value;
             OnPropertyChanged(propertyName);
             return true;
         }
